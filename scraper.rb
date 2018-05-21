@@ -10,7 +10,7 @@ agent = Mechanize.new
 page_url = "http://performatrin.com/products/performatrin-ultra-grain-free-recipe-cat-food/#"
 
 page = agent.get(page_url)
-page.css("#analysis_content").search('tr').each do |tr|
+page.at("#analysis_content").search('tr').each do |tr|
   key = tr.search('th').text
   value = tr.search('td').text
   info = {
