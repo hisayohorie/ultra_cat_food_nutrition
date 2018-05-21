@@ -1,14 +1,25 @@
 # This is a template for a Ruby scraper on morph.io (https://morph.io)
 # including some code snippets below that you should find helpful
 
-# require 'scraperwiki'
-# require 'mechanize'
-#
-# agent = Mechanize.new
+require 'scraperwiki'
+require 'mechanize'
+
+agent = Mechanize.new
 #
 # # Read in a page
-# page = agent.get("http://foo.com")
-#
+page_url = "http://performatrin.com/products/performatrin-ultra-grain-free-recipe-cat-food/#"
+
+page = agent.get(page_url)
+page.css("#analysis_content").search('tr').each do |tr|
+  key = tr.search('th').text
+  value = tr.search('td').text
+  info = {
+    nutrition: key,
+    value: value
+  }
+  ScraperWiki.save_sqlite([:nutrition], info)
+end
+
 # # Find somehing on the page using css selectors
 # p page.at('div.content')
 #
